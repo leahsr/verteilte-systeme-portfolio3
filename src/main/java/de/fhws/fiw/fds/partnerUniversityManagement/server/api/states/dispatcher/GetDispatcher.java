@@ -1,6 +1,7 @@
 package de.fhws.fiw.fds.partnerUniversityManagement.server.api.states.dispatcher;
 
-import de.fhws.fiw.fds.partnerUniversityManagement.server.api.models.PartnerUniversity;
+import de.fhws.fiw.fds.partnerUniversityManagement.server.api.states.partnerUniversities.PartnerUniversityRelTypes;
+import de.fhws.fiw.fds.partnerUniversityManagement.server.api.states.partnerUniversities.PartnerUniversityUri;
 import de.fhws.fiw.fds.sutton.server.api.serviceAdapters.responseAdapter.JerseyResponse;
 import de.fhws.fiw.fds.sutton.server.api.services.ServiceContext;
 import de.fhws.fiw.fds.sutton.server.api.states.get.AbstractGetDispatcherState;
@@ -14,7 +15,8 @@ public class GetDispatcher extends AbstractGetDispatcherState<Response> {
 
     @Override
     protected void defineTransitionLinks() {
-        //TODO
-        //addLink(PartnerUniversityUri)
+        addLink(PartnerUniversityUri.REL_PATH,
+                PartnerUniversityRelTypes.GET_ALL_PARTNER_UNIVERSITIES,
+                getAcceptRequestHeader());
     }
 }

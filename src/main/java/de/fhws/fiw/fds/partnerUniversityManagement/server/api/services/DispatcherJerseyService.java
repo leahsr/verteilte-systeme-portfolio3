@@ -1,9 +1,9 @@
 package de.fhws.fiw.fds.partnerUniversityManagement.server.api.services;
 
 import de.fhws.fiw.fds.partnerUniversityManagement.server.api.states.dispatcher.GetDispatcher;
+import de.fhws.fiw.fds.partnerUniversityManagement.server.database.utils.ResetDatabase;
 import de.fhws.fiw.fds.sutton.server.api.serviceAdapters.Exceptions.SuttonWebAppException;
 import de.fhws.fiw.fds.sutton.server.api.services.AbstractJerseyService;
-import de.fhws.fiw.fds.suttondemo.server.database.utils.ResetDatabase;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
