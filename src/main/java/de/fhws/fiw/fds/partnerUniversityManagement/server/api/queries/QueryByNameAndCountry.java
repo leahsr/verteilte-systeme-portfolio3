@@ -36,7 +36,7 @@ public class QueryByNameAndCountry<R> extends AbstractQuery<R, PartnerUniversity
     }
 
     @Override
-    protected CollectionModelResult<PartnerUniversity> doExecuteQuery(SearchParameter searchParameter) throws DatabaseException throws DatabaseException {
+    protected CollectionModelResult<PartnerUniversity> doExecuteQuery(SearchParameter searchParameter) throws DatabaseException {
         return DaoFactory.getInstance().getPartnerUniversityDao().readByNameAndCountry(this.name, this.country, searchParameter);
     }
 }

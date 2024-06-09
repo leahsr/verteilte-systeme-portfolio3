@@ -1,10 +1,8 @@
 package de.fhws.fiw.fds.partnerUniversityManagement;
 
+import de.fhws.fiw.fds.partnerUniversityManagement.server.api.services.DispatcherJerseyService;
 import de.fhws.fiw.fds.partnerUniversityManagement.server.api.services.PartnerUniversityJerseyService;
 import de.fhws.fiw.fds.sutton.server.api.AbstractJerseyApplication;
-import de.fhws.fiw.fds.suttondemo.server.api.services.DispatcherJerseyService;
-import de.fhws.fiw.fds.suttondemo.server.api.services.LocationJerseyService;
-import de.fhws.fiw.fds.suttondemo.server.api.services.PersonJerseyService;
 import jakarta.ws.rs.ApplicationPath;
 
 import java.util.HashSet;

@@ -25,7 +25,7 @@ import jakarta.ws.rs.ApplicationPath;
 import java.util.HashSet;
 import java.util.Set;
 
-@ApplicationPath("api")
+@ApplicationPath("demoapi")
 public class SuttonDemoJerseyApplication extends AbstractJerseyApplication {
 
     @Override

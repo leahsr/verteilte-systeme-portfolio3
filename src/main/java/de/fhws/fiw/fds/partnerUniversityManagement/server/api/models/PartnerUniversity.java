@@ -7,10 +7,10 @@ import de.fhws.fiw.fds.sutton.server.api.hyperlinks.annotations.SuttonLink;
 import de.fhws.fiw.fds.sutton.server.models.AbstractModel;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
+import java.time.LocalDate;
 import java.util.Date;
 @JsonRootName("partnerUniversity")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@XmlRootElement(name = "partnerUniversity")
 public class PartnerUniversity extends AbstractModel  {
 
     private String name;
@@ -20,8 +20,9 @@ public class PartnerUniversity extends AbstractModel  {
     private String contactPerson;
     private int numberOfStudentsSend;
     private int numberOfStudentsReceive;
-    private Date firstDaySpringSemester;
-    private Date firstDayAutumnSemester;
+    private LocalDate firstDaySpringSemester;
+    private LocalDate firstDayAutumnSemester;
+    private Link modules;
 
     @SuttonLink(
             value = "partnerUniversities/${id}",
@@ -33,7 +34,7 @@ public class PartnerUniversity extends AbstractModel  {
         //make JPA happy
     }
 
-    public PartnerUniversity(String name, String country, String department, String website, String contactPerson, int numberOfStudentsSend, int numberOfStudentsReceive, Date firstDaySpringSemester, Date firstDayAutumnSemester) {
+    public PartnerUniversity(String name, String country, String department, String website, String contactPerson, int numberOfStudentsSend, int numberOfStudentsReceive, LocalDate firstDaySpringSemester, LocalDate firstDayAutumnSemester) {
         this.name = name;
         this.country = country;
         this.department = department;
@@ -43,6 +44,23 @@ public class PartnerUniversity extends AbstractModel  {
         this.numberOfStudentsReceive = numberOfStudentsReceive;
         this.firstDaySpringSemester = firstDaySpringSemester;
         this.firstDayAutumnSemester = firstDayAutumnSemester;
+    }
+
+    @Override
+    public String toString() {
+        return "PartnerUniversity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", country='" + country + '\'' +
+                ", department='" + department + '\'' +
+                ", website='" + website + '\'' +
+                ", contactPerson='" + contactPerson + '\'' +
+                ", numberOfStudentsSend=" + numberOfStudentsSend+
+                ", numberOfStudentsReceive=" + numberOfStudentsReceive +
+                ", firstDaySpringSemester=" + firstDaySpringSemester +
+                ", firstDayAutumnSemester=" + firstDayAutumnSemester +
+                ", modules =" + modules +
+                '}';
     }
 
     public String getName() {
@@ -101,19 +119,35 @@ public class PartnerUniversity extends AbstractModel  {
         this.numberOfStudentsReceive = numberOfStudentsReceive;
     }
 
-    public Date getFirstDaySpringSemester() {
+    public LocalDate getFirstDaySpringSemester() {
         return firstDaySpringSemester;
     }
 
-    public void setFirstDaySpringSemester(Date firstDaySpringSemester) {
+    public void setFirstDaySpringSemester(LocalDate firstDaySpringSemester) {
         this.firstDaySpringSemester = firstDaySpringSemester;
     }
 
-    public Date getFirstDayAutumnSemester() {
+    public LocalDate getFirstDayAutumnSemester() {
         return firstDayAutumnSemester;
     }
 
-    public void setFirstDayAutumnSemester(Date firstDayAutumnSemester) {
+    public void setFirstDayAutumnSemester(LocalDate firstDayAutumnSemester) {
         this.firstDayAutumnSemester = firstDayAutumnSemester;
+    }
+
+    public Link getModules() {
+        return modules;
+    }
+
+    public void setModules(Link modules) {
+        this.modules = modules;
+    }
+
+    public Link getSelfLink() {
+        return selfLink;
+    }
+
+    public void setSelfLink(Link selfLink) {
+        this.selfLink = selfLink;
     }
 }

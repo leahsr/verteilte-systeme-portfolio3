@@ -2,16 +2,14 @@ package de.fhws.fiw.fds.partnerUniversityManagement.server.api.services;
 
 import de.fhws.fiw.fds.partnerUniversityManagement.server.api.models.PartnerUniversity;
 import de.fhws.fiw.fds.partnerUniversityManagement.server.api.queries.QueryByNameAndCountry;
-import de.fhws.fiw.fds.partnerUniversityManagement.server.api.states.partnerUniversities.GetAllPartnerUniversities;
-import de.fhws.fiw.fds.partnerUniversityManagement.server.api.states.partnerUniversities.GetSinglePartnerUniversity;
-import de.fhws.fiw.fds.partnerUniversityManagement.server.api.states.partnerUniversities.PostNewPartnerUniversity;
-import de.fhws.fiw.fds.partnerUniversityManagement.server.api.states.partnerUniversities.PutSinglePartnerUniversity;
+import de.fhws.fiw.fds.partnerUniversityManagement.server.api.states.partnerUniversities.*;
 import de.fhws.fiw.fds.sutton.server.api.serviceAdapters.Exceptions.SuttonWebAppException;
 import de.fhws.fiw.fds.sutton.server.api.services.AbstractJerseyService;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
+@Path("partneruniversities")
 public class PartnerUniversityJerseyService extends AbstractJerseyService {
     public PartnerUniversityJerseyService() {
         super();
@@ -35,6 +33,7 @@ public class PartnerUniversityJerseyService extends AbstractJerseyService {
     }
 
     @GET
+    @Path("{id: \\d+}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getSinglePartnerUniversity(@PathParam("id") final long id) {
         try {
@@ -70,7 +69,14 @@ public class PartnerUniversityJerseyService extends AbstractJerseyService {
         }
     }
 
-   /* @DELETE
+    @DELETE
     @Path("{id: \\d+}")
-    @Consume*/
+    @Consumes({MediaType.APPLICATION_JSON})
+    public Response deleteSinglePartnerUniversity(@PathParam("id") final long id) {
+        try {
+            return new DeleteSinglePartnerUniversity(this.serviceContext, id).execute();
+        } catch (SuttonWebAppException e) {
+            throw new WebApplicationException(Response.status(e.getStatus().getCode()).entity(e.getExceptionMessage()).build());
+        }
+    }
 }
