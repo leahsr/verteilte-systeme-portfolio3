@@ -1,7 +1,7 @@
 package de.fhws.fiw.fds.partnerUniversityManagement.server.api.states.dispatcher;
 
-import de.fhws.fiw.fds.partnerUniversityManagement.server.api.states.partnerUniversities.PartnerUniversityRelTypes;
-import de.fhws.fiw.fds.partnerUniversityManagement.server.api.states.partnerUniversities.PartnerUniversityUri;
+import de.fhws.fiw.fds.partnerUniversityManagement.server.api.states.partnerUniversity.PartnerUniversityRelTypes;
+import de.fhws.fiw.fds.partnerUniversityManagement.server.api.states.partnerUniversity.PartnerUniversityUri;
 import de.fhws.fiw.fds.sutton.server.api.serviceAdapters.responseAdapter.JerseyResponse;
 import de.fhws.fiw.fds.sutton.server.api.services.ServiceContext;
 import de.fhws.fiw.fds.sutton.server.api.states.get.AbstractGetDispatcherState;

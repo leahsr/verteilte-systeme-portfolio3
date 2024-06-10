@@ -22,8 +22,12 @@ public class PartnerUniversity extends AbstractModel  {
     private int numberOfStudentsReceive;
     private LocalDate firstDaySpringSemester;
     private LocalDate firstDayAutumnSemester;
-    private Link modules;
 
+    @SuttonLink(
+            value = "partnerUniversities/${id}/modules",
+            rel = "modulesOfPartnerUniversity"
+    )
+    private transient Link modules;
     @SuttonLink(
             value = "partnerUniversities/${id}",
             rel = "self"
@@ -59,7 +63,6 @@ public class PartnerUniversity extends AbstractModel  {
                 ", numberOfStudentsReceive=" + numberOfStudentsReceive +
                 ", firstDaySpringSemester=" + firstDaySpringSemester +
                 ", firstDayAutumnSemester=" + firstDayAutumnSemester +
-                ", modules =" + modules +
                 '}';
     }
 

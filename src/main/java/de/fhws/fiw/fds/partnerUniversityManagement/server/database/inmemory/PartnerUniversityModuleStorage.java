@@ -3,13 +3,15 @@ package de.fhws.fiw.fds.partnerUniversityManagement.server.database.inmemory;
 import de.fhws.fiw.fds.partnerUniversityManagement.server.api.models.Module;
 import de.fhws.fiw.fds.partnerUniversityManagement.server.database.ModuleDao;
 import de.fhws.fiw.fds.partnerUniversityManagement.server.database.PartnerUniversityModuleDao;
+import de.fhws.fiw.fds.sutton.server.database.IDatabaseAccessObject;
 import de.fhws.fiw.fds.sutton.server.database.SearchParameter;
-import de.fhws.fiw.fds.sutton.server.database.inmemory.AbstractInMemoryStorage;
+import de.fhws.fiw.fds.sutton.server.database.inmemory.AbstractInMemoryRelationStorage;
+import de.fhws.fiw.fds.sutton.server.database.inmemory.InMemoryPaging;
 import de.fhws.fiw.fds.sutton.server.database.results.CollectionModelResult;
-import de.fhws.fiw.fds.sutton.server.database.results.NoContentResult;
 import de.fhws.fiw.fds.sutton.server.database.results.SingleModelResult;
 
-public class PartnerUniversityModuleStorage extends AbstractInMemoryStorage<Module> implements PartnerUniversityModuleDao {
+public class PartnerUniversityModuleStorage extends AbstractInMemoryRelationStorage<Module> implements PartnerUniversityModuleDao {
+
     final private ModuleDao moduleStorage;
 
     public PartnerUniversityModuleStorage(ModuleDao moduleStorage) {
@@ -17,28 +19,8 @@ public class PartnerUniversityModuleStorage extends AbstractInMemoryStorage<Modu
     }
 
     @Override
-    public NoContentResult create(long primaryId, Module secondary) {
-        return null;
-    }
-
-    @Override
-    public NoContentResult update(long primaryId, Module secondary) {
-        return null;
-    }
-
-    @Override
-    public NoContentResult deleteRelation(long primaryId, long secondaryId) {
-        return null;
-    }
-
-    @Override
-    public NoContentResult deleteRelationsFromPrimary(long primaryId) {
-        return null;
-    }
-
-    @Override
-    public NoContentResult deleteRelationsToSecondary(long secondaryId) {
-        return null;
+    protected IDatabaseAccessObject<Module> getSecondaryStorage() {
+        return this.moduleStorage;
     }
 
     @Override
@@ -48,6 +30,18 @@ public class PartnerUniversityModuleStorage extends AbstractInMemoryStorage<Modu
 
     @Override
     public CollectionModelResult<Module> readAllLinked(long primaryId, SearchParameter searchParameter) {
-        return null;
+        return InMemoryPaging.page(
+                this.readAllLinkedByPredicate(primaryId, (p) -> true),
+                searchParameter.getOffset(), searchParameter.getSize()
+        );
     }
+
+    //TODO: readSingle???
+
+    @Override
+    public void resetDatabase() {
+        this.storage.clear();
+    }
+
 }
+

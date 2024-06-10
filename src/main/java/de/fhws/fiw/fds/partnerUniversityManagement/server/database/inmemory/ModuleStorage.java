@@ -8,17 +8,7 @@ import de.fhws.fiw.fds.sutton.server.database.results.NoContentResult;
 
 public class ModuleStorage extends AbstractInMemoryStorage<Module> implements ModuleDao {
     @Override
-    public NoContentResult create(Module model) {
-        return null;
-    }
-
-    @Override
-    public CollectionModelResult<Module> readAll() {
-        return ModuleDao.super.readAll();
-    }
-
-    @Override
-    public NoContentResult update(Module model) {
-        return null;
+    public void resetDatabase() {
+        this.storage.clear();
     }
 }

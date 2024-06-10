@@ -17,7 +17,6 @@ public class PartnerUniversityJerseryApplication extends AbstractJerseyApplicati
 
         returnValue.add(DispatcherJerseyService.class);
         returnValue.add(PartnerUniversityJerseyService.class);
-        //TODO: add Modules
 
         return returnValue;
     }

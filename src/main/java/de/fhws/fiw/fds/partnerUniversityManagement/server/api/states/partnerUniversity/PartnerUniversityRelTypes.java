@@ -1,4 +1,4 @@
-package de.fhws.fiw.fds.partnerUniversityManagement.server.api.states.partnerUniversities;
+package de.fhws.fiw.fds.partnerUniversityManagement.server.api.states.partnerUniversity;
 
 public interface PartnerUniversityRelTypes {
 

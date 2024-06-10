@@ -1,4 +1,4 @@
-package de.fhws.fiw.fds.partnerUniversityManagement.server.api.states.partnerUniversities;
+package de.fhws.fiw.fds.partnerUniversityManagement.server.api.states.partnerUniversity;
 
 import de.fhws.fiw.fds.partnerUniversityManagement.server.api.models.PartnerUniversity;
 import de.fhws.fiw.fds.sutton.server.api.queries.AbstractQuery;
