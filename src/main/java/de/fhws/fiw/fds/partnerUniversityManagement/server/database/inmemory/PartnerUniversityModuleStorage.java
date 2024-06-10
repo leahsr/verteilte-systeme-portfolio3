@@ -24,19 +24,12 @@ public class PartnerUniversityModuleStorage extends AbstractInMemoryRelationStor
     }
 
     @Override
-    public SingleModelResult<Module> readById(long primaryId, long secondaryId) {
-        return null;
-    }
-
-    @Override
     public CollectionModelResult<Module> readAllLinked(long primaryId, SearchParameter searchParameter) {
         return InMemoryPaging.page(
                 this.readAllLinkedByPredicate(primaryId, (p) -> true),
                 searchParameter.getOffset(), searchParameter.getSize()
         );
     }
-
-    //TODO: readSingle???
 
     @Override
     public void resetDatabase() {

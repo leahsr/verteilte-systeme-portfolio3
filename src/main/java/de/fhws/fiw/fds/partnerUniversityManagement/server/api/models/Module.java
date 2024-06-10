@@ -10,7 +10,6 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 
 @JsonRootName("module")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@XmlRootElement(name = "module")
 public class Module extends AbstractModel {
 
     private String name;
@@ -32,7 +31,7 @@ public class Module extends AbstractModel {
 
     public Module(String name, int semester, int ects) {
         this.name = name;
-        this.semester = semester;
+        this.semester = Math.abs(semester);
         this.ects = ects;
     }
 
