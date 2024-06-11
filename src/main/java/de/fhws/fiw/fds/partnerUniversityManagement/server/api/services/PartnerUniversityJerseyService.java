@@ -55,6 +55,7 @@ public class PartnerUniversityJerseyService extends AbstractJerseyService {
     @Consumes({MediaType.APPLICATION_JSON})
     public Response createSinglePartnerUniversity(final PartnerUniversity partnerUniversityModel) {
         try {
+            partnerUniversityModel.validate();
             return new PostNewPartnerUniversity(this.serviceContext, partnerUniversityModel).execute();
         } catch (SuttonWebAppException e) {
             throw new WebApplicationException(Response.status(e.getStatus().getCode())
@@ -67,6 +68,7 @@ public class PartnerUniversityJerseyService extends AbstractJerseyService {
     @Consumes({MediaType.APPLICATION_JSON})
     public Response updateSinglePartnerUniversity(@PathParam("id") final long id, final PartnerUniversity partnerUniversityModel) {
         try {
+            partnerUniversityModel.validate();
             return new PutSinglePartnerUniversity(this.serviceContext, id, partnerUniversityModel).execute();
         } catch (SuttonWebAppException e) {
             throw new WebApplicationException(Response.status(e.getStatus().getCode())
@@ -121,6 +123,7 @@ public class PartnerUniversityJerseyService extends AbstractJerseyService {
     @Consumes({MediaType.APPLICATION_JSON})
     public Response createNewModuleOfPartnerUniversity(@PathParam("partnerUniId") final long partnerUniId, final Module module) {
         try {
+            module.validate();
             return new PostModulePartnerUniversity(this.serviceContext, partnerUniId, module).execute();
         } catch (SuttonWebAppException e) {
             throw new WebApplicationException(Response.status(e.getStatus().getCode())
@@ -137,6 +140,7 @@ public class PartnerUniversityJerseyService extends AbstractJerseyService {
             final Module module
     ) {
         try {
+            module.validate();
             return new PutModulePartnerUniversity(this.serviceContext, partnerUniId, moduleId, module).execute();
         } catch (SuttonWebAppException e) {
             throw new WebApplicationException(Response.status(e.getStatus().getCode())

@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import de.fhws.fiw.fds.sutton.server.api.hyperlinks.Link;
 import de.fhws.fiw.fds.sutton.server.api.hyperlinks.annotations.SuttonLink;
+import de.fhws.fiw.fds.sutton.server.api.serviceAdapters.Exceptions.SuttonWebAppException;
+import de.fhws.fiw.fds.sutton.server.api.serviceAdapters.responseAdapter.Status;
 import de.fhws.fiw.fds.sutton.server.models.AbstractModel;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
@@ -49,6 +51,13 @@ public class PartnerUniversity extends AbstractModel  {
         this.firstDaySpringSemester = firstDaySpringSemester;
         this.firstDayAutumnSemester = firstDayAutumnSemester;
     }
+
+    public void validate() throws SuttonWebAppException {
+        if (this.numberOfStudentsSend < 0) throw new SuttonWebAppException(Status.BAD_REQUEST,
+                "numberOfStudentsSend should be greater than zero");
+        if (this.numberOfStudentsReceive < 0) throw new SuttonWebAppException(Status.BAD_REQUEST,  "numberOfStudentsReceive should be greater than zero");
+    }
+
 
     @Override
     public String toString() {
