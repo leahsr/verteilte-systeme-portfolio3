@@ -3,7 +3,7 @@ package de.fhws.fiw.fds.partnerUniversityManagement.server.api.services;
 import de.fhws.fiw.fds.partnerUniversityManagement.server.api.models.Module;
 import de.fhws.fiw.fds.partnerUniversityManagement.server.api.models.PartnerUniversity;
 import de.fhws.fiw.fds.partnerUniversityManagement.server.api.queries.QueryByModulePartnerUni;
-import de.fhws.fiw.fds.partnerUniversityManagement.server.api.queries.QueryByNameAndCountry;
+import de.fhws.fiw.fds.partnerUniversityManagement.server.api.queries.QueryByNameAndCountryAndOrder;
 import de.fhws.fiw.fds.partnerUniversityManagement.server.api.states.partnerUniversity.*;
 import de.fhws.fiw.fds.partnerUniversityManagement.server.api.states.partnerUniversityModule.*;
 import de.fhws.fiw.fds.sutton.server.api.serviceAdapters.Exceptions.SuttonWebAppException;
@@ -12,7 +12,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-@Path("partneruniversities")
+@Path("partnerUniversities")
 public class PartnerUniversityJerseyService extends AbstractJerseyService {
     public PartnerUniversityJerseyService() {
         super();
@@ -25,12 +25,14 @@ public class PartnerUniversityJerseyService extends AbstractJerseyService {
     public Response getAllPartnerUniversities(
             @DefaultValue("") @QueryParam("name") final String name,
             @DefaultValue("") @QueryParam("country") final String country,
+            @DefaultValue("") @QueryParam("order") final String order,
             @DefaultValue("0") @QueryParam("offset") int offset,
             @DefaultValue("20") @QueryParam("size") int size) {
         try {
             return new GetAllPartnerUniversities(
                     this.serviceContext,
-                    new QueryByNameAndCountry<>(name, country, offset, size)
+                    new QueryByNameAndCountryAndOrder<>(
+                            name, country, order,offset, size)
             ).execute();
         } catch (SuttonWebAppException e) {
             throw new WebApplicationException(e.getExceptionMessage(), e.getStatus().getCode());

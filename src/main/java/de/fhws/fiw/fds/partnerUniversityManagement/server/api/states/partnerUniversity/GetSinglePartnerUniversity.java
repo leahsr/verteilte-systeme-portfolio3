@@ -25,10 +25,15 @@ public class GetSinglePartnerUniversity extends AbstractGetState<Response,
     @Override
     protected void defineTransitionLinks() {
         addLink(PartnerUniversityUri.REL_PATH_ID,
-                PersonRelTypes.UPDATE_SINGLE_PERSON, getAcceptRequestHeader()
-                , this.requestedId);
+                PartnerUniversityRelTypes.UPDATE_SINGLE_PARTNER_UNIVERSITY,
+                getAcceptRequestHeader(),
+                this.requestedId);
         addLink(PartnerUniversityUri.REL_PATH_ID,
-                PersonRelTypes.DELETE_SINGLE_PERSON, getAcceptRequestHeader()
-                , this.requestedId);
+                PartnerUniversityRelTypes.DELETE_SINGLE_PARTNER_UNIVERSITY,
+                getAcceptRequestHeader(),
+                this.requestedId);
+        addLink(PartnerUniversityUri.REL_PATH,
+                PartnerUniversityRelTypes.GET_ALL_PARTNER_UNIVERSITIES,
+                getAcceptRequestHeader());
     }
 }

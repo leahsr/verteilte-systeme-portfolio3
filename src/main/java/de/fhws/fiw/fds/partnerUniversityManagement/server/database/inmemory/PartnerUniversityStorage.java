@@ -18,6 +18,7 @@ public class PartnerUniversityStorage extends AbstractInMemoryStorage<PartnerUni
 
     @Override
     public void resetDatabase() {
+        this.storage.clear();
     }
 
     private Predicate<PartnerUniversity> byNameAndCountry(String name, String country) {

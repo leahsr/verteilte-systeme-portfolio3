@@ -66,4 +66,12 @@ public class Module extends AbstractModel {
     public void setEcts(float ects) {
         this.ects = ects;
     }
+
+    public Link getSelfLinkOnSecond() {
+        return selfLinkOnSecond;
+    }
+
+    public Link getSelfLink() {
+        return selfLink;
+    }
 }
