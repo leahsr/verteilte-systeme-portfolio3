@@ -11,10 +11,10 @@ public class ModuleClientModel extends AbstractClientModel {
     private float ects;
 
     @JsonDeserialize(using = ClientLinkJsonConverter.class)
-    private Link selfLink;
+    private Link selfLinkOnSecond;
 
     @JsonDeserialize(using = ClientLinkJsonConverter.class)
-    private Link module;
+    private Link selfLink;
 
     public String getName() {
         return name;
@@ -48,11 +48,11 @@ public class ModuleClientModel extends AbstractClientModel {
         this.selfLink = selfLink;
     }
 
-    public Link getModule() {
-        return module;
+    public Link getSelfLinkOnSecond() {
+        return selfLinkOnSecond;
     }
 
-    public void setModule(Link module) {
-        this.module = module;
+    public void setSelfLinkOnSecond(Link selfLinkOnSecond) {
+        this.selfLinkOnSecond = selfLinkOnSecond;
     }
 }
