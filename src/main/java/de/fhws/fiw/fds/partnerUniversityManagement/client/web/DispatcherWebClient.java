@@ -14,8 +14,12 @@ public class DispatcherWebClient {
         this.client = new GenericWebClient<>();
     }
 
-    private DispatcherWebResponse getDispatcher(String url) throws IOException {
+    public DispatcherWebResponse getDispatcher(String url) throws IOException {
         return createResponse(this.client.sendGetSingleRequest(url));
+    }
+
+    public DispatcherWebResponse resetDatabaseOnServer(String url) throws IOException {
+        return createResponse(this.client.sendGetSingleRequest(url + "/resetdatabase"));
     }
 
     private DispatcherWebResponse createResponse(WebApiResponse<DispatcherModel> response) throws IOException {
@@ -25,7 +29,5 @@ public class DispatcherWebClient {
                 response.getLastStatusCode());
     }
 
-    public DispatcherWebResponse resetDatabaseOnServer(String url) throws IOException {
-        return createResponse(this.client.sendGetSingleRequest(url + "/resetdatabase"));
-    }
+
 }

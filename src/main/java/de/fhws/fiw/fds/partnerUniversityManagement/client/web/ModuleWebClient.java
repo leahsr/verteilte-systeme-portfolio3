@@ -35,7 +35,7 @@ public class ModuleWebClient {
         return createResponse(this.client.sendDeleteRequest(url));
     }
 
-    public ModuleWebResponse createResponse(WebApiResponse<ModuleClientModel> response) {
+    private ModuleWebResponse createResponse(WebApiResponse<ModuleClientModel> response) {
         return new ModuleWebResponse(
                 response.getResponseData(),
                 response.getResponseHeaders(),
