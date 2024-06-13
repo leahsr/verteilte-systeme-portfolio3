@@ -10,8 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestPartnerUniversityManagerAppIT {
     final private Faker faker = new Faker();
@@ -32,28 +31,99 @@ public class TestPartnerUniversityManagerAppIT {
         }
 
         @Test
-        public void dispatcher_is_available() throws IOException {
-            client.start();
+        public void dispatcher_works() throws IOException {
             assertEquals(200, client.getLastStatusCode());
         }
 
         @Test
         public void dispatcher_is_get_all_partnerUniversities_allowed() throws IOException {
-            client.start();
             assertTrue(client.isGetAllPartnerUniversitiesAllowed());
         }
-    }
 
-    @Nested
-    class GetAllPartnerUniversities {
+        @Nested
+        class GetAllPartnerUniversities {
 
-        @BeforeEach
-        public void setup() throws IOException {
-            client.start();
+            @BeforeEach
+            public void setup() throws IOException {
+                addSamplePartnerUniversities(20);
+                client.getAllPartnerUniversities();
+            }
+
+            @Test
+            public void get_all_partnerUni_works() {
+                assertEquals(200, client.getLastStatusCode());
+            }
+
+            @Test
+            public void get_all_partnerUni_by_name_and_country_allowed() throws IOException{
+                assertTrue(client.isGetAllPartnerUniversitiesByNameAndCountryAllowed());
+            }
+
+            @Test
+            public void get_all_partnerUni_by_name_and_country_desc_allowed() throws IOException{
+                assertTrue(client.isGetAllPartnerUniversitiesByNameAndCountryDescAllowed());
+            }
+
+            @Test
+            public void get_all_partnerUni_by_name_and_country_asc_allowed() throws IOException{
+                assertTrue(client.isGetAllPartnerUniversitiesByNameAndCountryAscAllowed());
+            }
+
+            @Test
+            public void get_all_partnerUni_is_getSingle_partnerUni_allowed() {
+                assertTrue(client.isGetSinglePartnerUniversityAllowed());
+            }
+
+            @Test
+            public void get_all_partnerUni_is_create_partnerUni_allowed() throws IOException {
+                assertTrue(client.isCreatePartnerUniversityAllowed());
+            }
+
+            @Test
+            public void get_all_partnerUni_is_next_page_allowed() {
+                assertTrue(client.hasNext());
+            }
+
+            @Test
+            public void get_all_partnerUni_is_previous_not_allowed() {
+                assertFalse(client.hasPrevious());
+            }
+
+            @Nested
+            class GetSinglePartnerUniversity {
+
+                @BeforeEach
+                public void setup() throws IOException {
+                    client.setPartnerUniversityCursor(0);
+                    client.getSinglePartnerUniversity();
+                }
+
+                @Test
+                public void get_single_partnerUni_works() {
+                    assertEquals(200, client.getLastStatusCode());
+                }
+
+                @Test
+                public void get_single_partnerUni_is_getAll_partnerUnis_allowed() {
+                    assertTrue(client.isGetAllPartnerUniversitiesAllowed());
+                }
+
+                @Test
+                public void get_single_partnerUni_is_create_partnerUni_allowed() {
+                    assertTrue(client.isCreatePartnerUniversityAllowed());
+                }
+
+                @Test
+                public void get_single_partnerUni_is_delete_partnerUni_allowed() {
+                    assertTrue(client.isDeletePartnerUniversityAllowed());
+                }
+
+                @Nested
+                class UpdatePartnerUniversity {
+
+                }
+            }
         }
-
-        @Test
-        public void
     }
 
     // Helper
@@ -75,6 +145,15 @@ public class TestPartnerUniversityManagerAppIT {
         return partnerUni;
     }
 
+    public void addSamplePartnerUniversities(int numberOfSamples) throws IOException {
+        var addDataClient = new PartnerUniversityManagerRestClient();
+        for (int i = 0; i <= numberOfSamples; i++) {
+            addDataClient.start();
+            addDataClient.getAllPartnerUniversities();
+            addDataClient.createPartnerUniversity(createSamplePartnerUniversity());
+        }
+    }
+
     public ModuleClientModel createSampleModule() {
         var title = faker.company().buzzword();
         ModuleClientModel module = new ModuleClientModel();
@@ -84,5 +163,5 @@ public class TestPartnerUniversityManagerAppIT {
         return module;
     }
 
-    
+
 }

@@ -59,6 +59,14 @@ public class PartnerUniversityManagerRestClient extends AbstractRestClient {
         processResponse(this.dispatcherClient.resetDatabaseOnServer(BASE_URL), (response -> {}));
     }
 
+    public boolean hasNext() {
+        return isLinkAvailable("next");
+    }
+
+    public boolean hasPrevious() {
+        return isLinkAvailable("previous");
+    }
+
     public boolean isGetAllPartnerUniversitiesAllowed() {
         return isLinkAvailable(PartnerUniversityRelTypes.GET_ALL_PARTNER_UNIVERSITIES);
     }
@@ -137,13 +145,13 @@ public class PartnerUniversityManagerRestClient extends AbstractRestClient {
     }
 
     public boolean isGetSinglePartnerUniversityAllowed(){
-        return isLinkAvailable(PartnerUniversityRelTypes.GET_SINGLE_PARTNER_UNIVERSITY);
+        return !this.currentPartnerUniversityData.isEmpty() || isLinkAvailable(PartnerUniversityRelTypes.GET_SINGLE_PARTNER_UNIVERSITY) || isLocationHeaderAvailable();
     }
 
     public void getSinglePartnerUniversity() throws IOException{
         if(isLocationHeaderAvailable()) {
             getSinglePartnerUniversity(getLocationHeaderURL());
-        } else if (this.currentPartnerUniversityData.isEmpty()){
+        } else if (!this.currentPartnerUniversityData.isEmpty()){
             getSinglePartnerUniversity(this.cursorPartnerUniversityData);
         } else {
             throw new IllegalStateException();
@@ -162,11 +170,11 @@ public class PartnerUniversityManagerRestClient extends AbstractRestClient {
     }
 
     public boolean isCreatePartnerUniversityAllowed() {
-        return isLinkAvailable(PartnerUniversityRelTypes.CREATE_PARTNER_UNIVERSITY);
+        return isLinkAvailable(PartnerUniversityRelTypes.CREATE_PARTNER_UNIVERSITY) || !currentPartnerUniversityData.isEmpty() || isLocationHeaderAvailable();
     }
 
     public void createPartnerUniversity(PartnerUniversityClientModel partnerUni) throws IOException{
-        if(isCreatePartnerUniversityAllowed()) {
+        if(isLinkAvailable(PartnerUniversityRelTypes.CREATE_PARTNER_UNIVERSITY)) {
             processResponse(this.partnerUniClient.postNewPartnerUniversity(
                     getUrl(PartnerUniversityRelTypes.CREATE_PARTNER_UNIVERSITY),partnerUni),
                     (response) -> {
