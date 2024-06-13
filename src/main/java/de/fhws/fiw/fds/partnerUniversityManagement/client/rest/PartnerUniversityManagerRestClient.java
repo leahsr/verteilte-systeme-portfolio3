@@ -44,6 +44,9 @@ public class PartnerUniversityManagerRestClient extends AbstractRestClient {
         }
     }
 
+    public List<PartnerUniversityClientModel> partnerUniversityData() {
+        return this.currentPartnerUniversityData;
+    }
     public PartnerUniversityManagerRestClient() {
         super();
         this.dispatcherClient = new DispatcherWebClient();
@@ -151,6 +154,8 @@ public class PartnerUniversityManagerRestClient extends AbstractRestClient {
     public void getSinglePartnerUniversity() throws IOException{
         if(isLocationHeaderAvailable()) {
             getSinglePartnerUniversity(getLocationHeaderURL());
+        } else if (isLinkAvailable(PartnerUniversityRelTypes.GET_SINGLE_PARTNER_UNIVERSITY)) {
+            getSinglePartnerUniversity(getUrl(PartnerUniversityRelTypes.GET_SINGLE_PARTNER_UNIVERSITY));
         } else if (!this.currentPartnerUniversityData.isEmpty()){
             getSinglePartnerUniversity(this.cursorPartnerUniversityData);
         } else {
@@ -254,6 +259,8 @@ public class PartnerUniversityManagerRestClient extends AbstractRestClient {
     public void getSingleModuleOfPartnerUni() throws IOException{
         if(isLocationHeaderAvailable()) {
             getSingleModuleOfPartnerUni(getLocationHeaderURL());
+        } else if (isLinkAvailable(PartnerUniversityModuleRelTypes.GET_SINGLE_MODULE_OF_PARTNER_UNI)) {
+            getSingleModuleOfPartnerUni(getUrl(PartnerUniversityModuleRelTypes.GET_SINGLE_MODULE_OF_PARTNER_UNI));
         } else if (!this.currentModuleData.isEmpty()) {
             getSingleModuleOfPartnerUni(this.cursorModuleData);
         } else {
