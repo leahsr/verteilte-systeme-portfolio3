@@ -1,5 +1,6 @@
 package de.fhws.fiw.fds.partnerUniversityManagement.client.rest;
 
+import de.fhws.fiw.fds.partnerUniversityManagement.PathUrls;
 import de.fhws.fiw.fds.partnerUniversityManagement.client.models.ModuleClientModel;
 import de.fhws.fiw.fds.partnerUniversityManagement.client.models.PartnerUniversityClientModel;
 import de.fhws.fiw.fds.partnerUniversityManagement.client.web.DispatcherWebClient;
@@ -15,7 +16,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class PartnerUniversityManagerRestClient extends AbstractRestClient {
-    private static final String BASE_URL = "http://localhost:8080/partnerUniversityMangament/api";
+    private static final String BASE_URL = PathUrls.BASE_URL;
 
     final private DispatcherWebClient dispatcherClient;
     final private PartnerUniversityWebClient partnerUniClient;
