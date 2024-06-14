@@ -89,6 +89,11 @@ public class TestPartnerUniversityManagerAppIT {
                 assertFalse(client.hasPrevious());
             }
 
+            @Test
+            public void get_single_partnerUni_allowed() {
+                assertTrue(client.isGetSinglePartnerUniversityAllowed());
+            }
+
             @Nested
             class GetSinglePartnerUniversity {
 
@@ -111,6 +116,11 @@ public class TestPartnerUniversityManagerAppIT {
                 @Test
                 public void get_single_partnerUni_is_create_partnerUni_allowed() {
                     assertTrue(client.isCreatePartnerUniversityAllowed());
+                }
+
+                @Test
+                public void get_single_partnerUni_is_update_allowed() {
+                    assertTrue(client.isUpdatePartnerUniversityAllowed());
                 }
 
                 @Test
@@ -147,6 +157,8 @@ public class TestPartnerUniversityManagerAppIT {
                     public void is_value_updated() throws IOException {
                         client.getSinglePartnerUniversity();
                         assertEquals(newName, client.partnerUniversityData().getFirst().getName());
+                        assertEquals(newCountry, client.partnerUniversityData().getFirst().getCountry());
+                        assertEquals(newNumberOfStudentsSend, client.partnerUniversityData().getFirst().getNumberOfStudentsSend());
                     }
                 }
 
@@ -286,6 +298,22 @@ public class TestPartnerUniversityManagerAppIT {
                                 }
                             }
                         }
+
+                        @Nested
+                        class CreateInvalidModule {
+                            public ModuleClientModel sampleModule = createSampleModule();
+
+                            @BeforeEach
+                            public void setup() throws IOException{
+                                sampleModule.setEcts(-5);
+                                client.createModuleOfPartnerUniversity(sampleModule);
+                            }
+
+                            @Test
+                            public void invalid_input() {
+                                assertEquals(400, client.getLastStatusCode());
+                            }
+                        }
                     }
                 }
             }
@@ -313,6 +341,21 @@ public class TestPartnerUniversityManagerAppIT {
                     assertEquals(client.partnerUniversityData().getFirst().getName(), newUni.getName());
                     assertEquals(client.partnerUniversityData().getFirst().getCountry(), newUni.getCountry());
                     assertEquals(client.partnerUniversityData().getFirst().getNumberOfStudentsSend(), newUni.getNumberOfStudentsSend());
+                }
+            }
+
+            @Nested
+            class CreateInvalidPartnerUniversity {
+                private PartnerUniversityClientModel newUni = createSamplePartnerUniversity();
+                @BeforeEach
+                public void setup() throws IOException{
+                    newUni.setNumberOfStudentsSend(-23);
+                    client.createPartnerUniversity(newUni);
+                }
+
+                @Test
+                public void invalid_input() {
+                    assertEquals(400, client.getLastStatusCode());
                 }
             }
         }
