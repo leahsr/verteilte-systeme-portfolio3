@@ -47,6 +47,10 @@ public class PartnerUniversityManagerRestClient extends AbstractRestClient {
     public List<PartnerUniversityClientModel> partnerUniversityData() {
         return this.currentPartnerUniversityData;
     }
+
+    public List<ModuleClientModel> moduleData() {
+        return this.currentModuleData;
+    }
     public PartnerUniversityManagerRestClient() {
         super();
         this.dispatcherClient = new DispatcherWebClient();
@@ -253,7 +257,7 @@ public class PartnerUniversityManagerRestClient extends AbstractRestClient {
     }
 
     public boolean isGetSingleModuleOfPartnerUniAllowed() {
-        return isLinkAvailable(PartnerUniversityModuleRelTypes.GET_SINGLE_MODULE_OF_PARTNER_UNI);
+        return isLinkAvailable(PartnerUniversityModuleRelTypes.GET_SINGLE_MODULE_OF_PARTNER_UNI) || isLocationHeaderAvailable() || !this.currentModuleData.isEmpty();
     }
 
     public void getSingleModuleOfPartnerUni() throws IOException{
@@ -269,7 +273,7 @@ public class PartnerUniversityManagerRestClient extends AbstractRestClient {
     }
 
     private void getSingleModuleOfPartnerUni(int index) throws IOException {
-        getSingleModuleOfPartnerUni(this.currentModuleData.get(index).getSelfLink().getUrl());
+        getSingleModuleOfPartnerUni(this.currentModuleData.get(index).getSelfLinkOnSecond().getUrl());
     }
 
     private void getSingleModuleOfPartnerUni(String url) throws IOException {
@@ -285,7 +289,7 @@ public class PartnerUniversityManagerRestClient extends AbstractRestClient {
     }
 
     public void createModuleOfPartnerUniversity(ModuleClientModel module) throws IOException {
-        if(isCreateModuleOfPartnerUniAllowed()){
+        if(isLinkAvailable(PartnerUniversityModuleRelTypes.CREATE_MODULE)){
             processResponse(this.moduleClient.postModule(getUrl(PartnerUniversityModuleRelTypes.CREATE_MODULE),module),
                     (response) -> {
                         this.currentModuleData = Collections.EMPTY_LIST;

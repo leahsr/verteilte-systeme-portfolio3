@@ -1,5 +1,6 @@
 package de.fhws.fiw.fds.partnerUniversityManagement.client.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import de.fhws.fiw.fds.sutton.client.converters.ClientLinkJsonConverter;
 import de.fhws.fiw.fds.sutton.client.model.AbstractClientModel;
@@ -12,9 +13,6 @@ public class ModuleClientModel extends AbstractClientModel {
 
     @JsonDeserialize(using = ClientLinkJsonConverter.class)
     private Link selfLinkOnSecond;
-
-    @JsonDeserialize(using = ClientLinkJsonConverter.class)
-    private Link selfLink;
 
     public String getName() {
         return name;
@@ -40,14 +38,7 @@ public class ModuleClientModel extends AbstractClientModel {
         this.ects = ects;
     }
 
-    public Link getSelfLink() {
-        return selfLink;
-    }
-
-    public void setSelfLink(Link selfLink) {
-        this.selfLink = selfLink;
-    }
-
+    @JsonIgnore
     public Link getSelfLinkOnSecond() {
         return selfLinkOnSecond;
     }

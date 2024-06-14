@@ -167,8 +167,128 @@ public class TestPartnerUniversityManagerAppIT {
                         assertTrue(client.isGetAllPartnerUniversitiesAllowed());
                     }
                 }
-            }
 
+                @Nested
+                class Modules {
+                    @Nested
+                    class GetAllModulesEmpty {
+                        @BeforeEach
+                        public void setup() throws IOException {
+                            client.getAllModulesOfPartnerUniversities();
+                        }
+
+                        @Test
+                        public void get_all_modules_works() {
+                            assertEquals(200, client.getLastStatusCode());
+                        }
+
+                        @Test
+                        public void get_single_module_not_available() {
+                            assertFalse(client.isGetSingleModuleOfPartnerUniAllowed());
+                        }
+
+                        @Test
+                        void create_module_allowed() {
+                            assertTrue(client.isCreateModuleOfPartnerUniAllowed());
+                        }
+
+                        @Test
+                        void is_get_all_modules_collection_empty() {
+                            assertTrue(client.moduleData().isEmpty());
+                        }
+
+                        @Nested
+                        class CreateModule {
+                            public ModuleClientModel sampleModule = createSampleModule();
+
+                            @BeforeEach
+                            public void setup() throws IOException {
+                                client.createModuleOfPartnerUniversity(sampleModule);
+                            }
+
+                            @Test
+                            public void create_module_works() {
+                                assertEquals(201, client.getLastStatusCode());
+                            }
+
+                            @Test
+                            public void is_get_single_module_allowed() {
+                                assertTrue(client.isGetSingleModuleOfPartnerUniAllowed());
+                            }
+
+                            @Nested
+                            class getSingleModule {
+                                @BeforeEach
+                                public void setup() throws IOException {
+                                    client.getSingleModuleOfPartnerUni();
+                                }
+
+                                @Test
+                                public void get_single_module_works() {
+                                    assertEquals(200, client.getLastStatusCode());
+                                }
+
+                                @Test
+                                public void is_single_module_correct() {
+                                    assertEquals(sampleModule.getName(), client.moduleData().getFirst().getName());
+                                    assertEquals(sampleModule.getSemester(), client.moduleData().getFirst().getSemester());
+                                    assertEquals(sampleModule.getEcts(), client.moduleData().getFirst().getEcts());
+                                }
+
+                                @Test
+                                public void is_get_all_modules_allowed() {
+                                    assertTrue(client.isGetAllModulesOfPartnerUniAllowed());
+                                }
+
+                                @Test
+                                public void is_delete_module_available() {
+                                    assertTrue(client.isDeleteModuleOfPartnerUniAllowed());
+                                }
+
+                                @Nested
+                                class UpdateModule {
+                                    String updatedModuleName = "New Module Name";
+                                    @BeforeEach
+                                    public void setup() throws IOException{
+                                        var module = client.moduleData().getFirst();
+                                        module.setName(updatedModuleName);
+                                        client.updateModuleOfPartnerUniversity(module);
+                                    }
+
+                                    @Test
+                                    public void update_module_works() {
+                                        assertEquals(204, client.getLastStatusCode());
+                                    }
+
+                                    @Test
+                                    public void is_update_module_correct() throws IOException {
+                                        client.getSingleModuleOfPartnerUni();
+                                        assertEquals(updatedModuleName, client.moduleData().getFirst().getName());
+                                    }
+                                }
+
+                                @Nested
+                                class DeleteModule {
+                                    @BeforeEach
+                                    public void setup() throws IOException {
+                                        client.deleteModuleOfPartnerUniversity();
+                                    }
+
+                                    @Test
+                                    public void delete_module_works() {
+                                        assertEquals(204, client.getLastStatusCode());
+                                    }
+
+                                    @Test
+                                    public void is_get_all_modules_allowed() {
+                                        assertTrue(client.isGetAllModulesOfPartnerUniAllowed());
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
             @Nested
             class CreatePartnerUniversity {
                 private PartnerUniversityClientModel newUni = createSamplePartnerUniversity();
@@ -184,7 +304,7 @@ public class TestPartnerUniversityManagerAppIT {
 
                 @Test
                 public void is_get_all_partnerUni_allowed() throws IOException {
-                    assertTrue(client.isGetAllPartnerUniversitiesAllowed());
+                    assertTrue(client.isGetSinglePartnerUniversityAllowed());
                 }
 
                 @Test
@@ -227,13 +347,11 @@ public class TestPartnerUniversityManagerAppIT {
         }
 
         public ModuleClientModel createSampleModule() {
-            var title = faker.company().buzzword();
+            String title = faker.company().buzzword();
             ModuleClientModel module = new ModuleClientModel();
             module.setName(title);
             module.setEcts(5);
             module.setSemester(1);
             return module;
         }
-
-
     }
