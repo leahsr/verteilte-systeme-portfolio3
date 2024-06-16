@@ -1,9 +1,9 @@
 package de.fhws.fiw.fds.sutton.server;
 
 import com.github.javafaker.Faker;
-import de.fhws.fiw.fds.partnerUniversityManagement.client.models.ModuleClientModel;
-import de.fhws.fiw.fds.partnerUniversityManagement.client.models.PartnerUniversityClientModel;
-import de.fhws.fiw.fds.partnerUniversityManagement.client.rest.PartnerUniversityManagerRestClient;
+import de.fhws.fiw.fds.partneruniversitymanagement.client.models.ModuleClientModel;
+import de.fhws.fiw.fds.partneruniversitymanagement.client.models.PartnerUniversityClientModel;
+import de.fhws.fiw.fds.partneruniversitymanagement.client.rest.PartnerUniversityManagerRestClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -406,7 +406,7 @@ public class TestPartnerUniversityManagerAppIT {
                 PartnerUniversityClientModel firstUni = createSamplePartnerUniversity();
                 firstUni.setName(firstName);
                 PartnerUniversityClientModel secondUni = createSamplePartnerUniversity();
-                firstUni.setName(secondName);
+                secondUni.setName(secondName);
 
                 addDataClient.createPartnerUniversity(firstUni);
                 addDataClient2.createPartnerUniversity(secondUni);
@@ -449,8 +449,21 @@ public class TestPartnerUniversityManagerAppIT {
 
             @Nested
             class GetByNameAndCountry {
+                @BeforeEach
+                public void setup() throws IOException{
+                    client.getAllPartnerUniversitiesByNameAndCountry("aaaaa", "");
+                }
 
+                @Test
+                public void get_by_name_works() {
+                    assertEquals(200, client.getLastStatusCode());
+                }
 
+                @Test
+                public void get_by_name_is_correct() {
+                    assertEquals(firstName, client.partnerUniversityData().getFirst().getName());
+                    assertEquals(1, client.partnerUniversityData().size());
+                }
             }
         }
     }
