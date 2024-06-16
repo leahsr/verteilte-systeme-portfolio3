@@ -6,7 +6,6 @@ import de.fhws.fiw.fds.sutton.server.api.serviceAdapters.responseAdapter.JerseyR
 import de.fhws.fiw.fds.sutton.server.api.services.ServiceContext;
 import de.fhws.fiw.fds.sutton.server.api.states.get.AbstractGetState;
 import de.fhws.fiw.fds.sutton.server.database.results.SingleModelResult;
-import de.fhws.fiw.fds.suttondemo.server.api.states.persons.PersonRelTypes;
 import jakarta.ws.rs.core.Response;
 
 public class GetSinglePartnerUniversity extends AbstractGetState<Response,

@@ -71,7 +71,7 @@ public class PartnerUniversityManagerRestClient extends AbstractRestClient {
     }
 
     public boolean hasPrevious() {
-        return isLinkAvailable("previous");
+        return isLinkAvailable("prev");
     }
 
     public boolean isGetAllPartnerUniversitiesAllowed() {
@@ -88,6 +88,33 @@ public class PartnerUniversityManagerRestClient extends AbstractRestClient {
             );
         } else {
             throw new IllegalStateException();
+        }
+    }
+
+    public void getNextPartnerUniversityPage() throws IOException {
+        if (hasNext()) {
+            processResponse(
+                    this.partnerUniClient.getCollectionOfPartnerUniversities(getUrl("next")),
+                    (response) -> {
+                        this.currentPartnerUniversityData = new LinkedList<>(response.getResponseData());
+                        this.cursorPartnerUniversityData = 0;
+                    }
+            );
+        } else {
+            throw  new IllegalStateException();
+        }
+    }
+    public void getPrevPartnerUniversityPage() throws IOException {
+        if (hasPrevious()) {
+            processResponse(
+                    this.partnerUniClient.getCollectionOfPartnerUniversities(getUrl("prev")),
+                    (response) -> {
+                        this.currentPartnerUniversityData = new LinkedList<>(response.getResponseData());
+                        this.cursorPartnerUniversityData = 0;
+                    }
+            );
+        } else {
+            throw  new IllegalStateException();
         }
     }
 

@@ -45,7 +45,7 @@ public class TestPartnerUniversityManagerAppIT {
 
             @BeforeEach
             public void setup() throws IOException {
-                addSamplePartnerUniversities(20);
+                addSamplePartnerUniversities(38);
                 client.getAllPartnerUniversities();
             }
 
@@ -92,6 +92,35 @@ public class TestPartnerUniversityManagerAppIT {
             @Test
             public void get_single_partnerUni_allowed() {
                 assertTrue(client.isGetSinglePartnerUniversityAllowed());
+            }
+
+            @Nested
+            class GetNextPrevPage {
+                @BeforeEach
+                public void setup() throws IOException {
+                    client.getNextPartnerUniversityPage();
+                }
+
+                @Test
+                public void next_page_works() {
+                    assertEquals(200, client.getLastStatusCode());
+                }
+
+                @Test
+                public void next_page_allowed() {
+                    assertFalse(client.hasNext());
+                }
+
+                @Test
+                public void previous_page_allowed() {
+                    assertTrue(client.hasPrevious());
+                }
+
+                @Test
+                public void get_previous_page_works() throws IOException{
+                    client.getPrevPartnerUniversityPage();
+                    assertEquals(200, client.getLastStatusCode());
+                }
             }
 
             @Nested
@@ -357,6 +386,71 @@ public class TestPartnerUniversityManagerAppIT {
                 public void invalid_input() {
                     assertEquals(400, client.getLastStatusCode());
                 }
+            }
+        }
+
+        @Nested
+        class Ordering {
+            String firstName = "aaaaa";
+            String secondName = "zzzzz";
+
+            @BeforeEach
+            public void setup() throws IOException {
+                var addDataClient = new PartnerUniversityManagerRestClient();
+                var addDataClient2 = new PartnerUniversityManagerRestClient();
+                addDataClient.start();
+                addDataClient2.start();
+                addDataClient.getAllPartnerUniversities();
+                addDataClient2.getAllPartnerUniversities();
+
+                PartnerUniversityClientModel firstUni = createSamplePartnerUniversity();
+                firstUni.setName(firstName);
+                PartnerUniversityClientModel secondUni = createSamplePartnerUniversity();
+                firstUni.setName(secondName);
+
+                addDataClient.createPartnerUniversity(firstUni);
+                addDataClient2.createPartnerUniversity(secondUni);
+
+                client.getAllPartnerUniversities();
+            }
+
+            @Test
+            public void get_all_works() {
+                assertEquals(200, client.getLastStatusCode());
+            }
+
+            @Nested
+            class Descending {
+                @BeforeEach
+                public void setup() throws IOException {
+                    client.getAllPartnerUniversitiesByNameAndCountryDesc("", "");
+                }
+
+                @Test
+                public void is_order_correct() {
+                    System.out.println(client.partnerUniversityData().get(0));
+                    assertEquals(firstName, client.partnerUniversityData().get(1).getName());
+                    assertEquals(secondName, client.partnerUniversityData().get(0).getName() );
+                }
+            }
+            @Nested
+            class Ascending {
+                @BeforeEach
+                public void setup() throws IOException {
+                    client.getAllPartnerUniversitiesByNameAndCountryAsc("","");
+                }
+
+                @Test
+                public void is_order_correct() {
+                    assertEquals(firstName, client.partnerUniversityData().get(0).getName());
+                    assertEquals(secondName, client.partnerUniversityData().get(1).getName());
+                }
+            }
+
+            @Nested
+            class GetByNameAndCountry {
+
+
             }
         }
     }
