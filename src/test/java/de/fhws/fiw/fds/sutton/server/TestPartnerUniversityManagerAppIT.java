@@ -428,9 +428,8 @@ public class TestPartnerUniversityManagerAppIT {
 
                 @Test
                 public void is_order_correct() {
-                    System.out.println(client.partnerUniversityData().get(0));
-                    assertEquals(firstName, client.partnerUniversityData().get(1).getName());
-                    assertEquals(secondName, client.partnerUniversityData().get(0).getName() );
+                    assertEquals(secondName, client.partnerUniversityData().get(1).getName());
+                    assertEquals(firstName, client.partnerUniversityData().get(0).getName());
                 }
             }
             @Nested

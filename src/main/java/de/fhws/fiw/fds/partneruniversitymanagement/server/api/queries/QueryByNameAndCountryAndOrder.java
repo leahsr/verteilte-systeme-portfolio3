@@ -25,23 +25,9 @@ public class QueryByNameAndCountryAndOrder<R> extends AbstractQuery<R,
     }
 
     @Override
-    protected CollectionModelResult<PartnerUniversity> doExecuteQuery(SearchParameter searchParameter) throws DatabaseException {
-        CollectionModelResult<PartnerUniversity> unis = DaoFactory.getInstance().getPartnerUniversityDao().readByNameAndCountry(this.name, this.country, searchParameter);
-        Collection<PartnerUniversity> uniCollection = unis.getResult();
-
-        var sortedUnis = unis.getResult().stream().sorted((a,b) -> {
-            if(this.order.equalsIgnoreCase("asc")) {
-                return a.getName().compareToIgnoreCase(b.getName());
-            }
-            else if(this.order.equalsIgnoreCase("desc")) {
-                return b.getName().compareToIgnoreCase(a.getName());
-            }
-            else return 0;
-        }).toList();
-
-        uniCollection.clear();
-        uniCollection.addAll(sortedUnis);
-        return unis;
+    protected CollectionModelResult<PartnerUniversity> doExecuteQuery(SearchParameter searchParameter) {
+        searchParameter.setOrderByAttribute(this.order);
+        return DaoFactory.getInstance().getPartnerUniversityDao().readByNameAndCountry(this.name, this.country, searchParameter);
     }
 
     public String getName() {

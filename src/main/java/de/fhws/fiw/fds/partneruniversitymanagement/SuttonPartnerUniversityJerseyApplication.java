@@ -12,7 +12,6 @@ import java.util.Set;
 public class SuttonPartnerUniversityJerseyApplication extends AbstractJerseyApplication {
     @Override
     protected Set<Class<?>> getServiceClasses() {
-        System.out.println("Käse2");
         final Set<Class<?>> returnValue = new HashSet<>();
 
         returnValue.add(DispatcherJerseyService.class);
